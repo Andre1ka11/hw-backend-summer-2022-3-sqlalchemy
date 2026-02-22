@@ -78,21 +78,24 @@ async def error_handling_middleware(request: "Request", handler):
     try:
         response = await handler(request)
         return response
-    except HTTPUnprocessableEntity as e:
-        # Для ошибок валидации marshmallow
+    except (HTTPUnprocessableEntity, ValidationError) as e:
+        # Обрабатываем все ошибки валидации одинаково
+        if isinstance(e, HTTPUnprocessableEntity):
+            error_data = json.loads(e.text)
+            message = e.reason
+        else:  # ValidationError
+            error_data = e.messages if hasattr(e, 'messages') else {"error": str(e)}
+            message = "Validation error"
+        
+        # Убеждаемся, что данные обернуты в {"json": ...}
+        if "json" not in error_data:
+            error_data = {"json": error_data}
+        
         return error_json_response(
             http_status=400,
             status=HTTP_ERROR_CODES[400],
-            message=e.reason,
-            data={"json": json.loads(e.text)},
-        )
-    except ValidationError as e:
-        # Для наших кастомных ValidationError
-        return error_json_response(
-            http_status=400,
-            status=HTTP_ERROR_CODES[400],
-            message="Validation error",
-            data={"json": e.messages if hasattr(e, 'messages') else str(e)},
+            message=message,
+            data=error_data,
         )
     except HTTPUnauthorized as e:
         return error_json_response(
