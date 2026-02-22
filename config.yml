@@ -12,7 +12,7 @@ database:
   password: kts_pass
   database: kts
 bot:
-  token: group_token
-  group_id: 1
+  token: "vk1.a.UXtr-eondruIUMpZr0AkKuZmg5_oSsiytZCye3bxchQU4v39L5WbVFHJWxsMcfru3DfXdPtPVDrJp4fe49eEaZwgTwMb0c8aNahTLHeOO1ScBxVplpoIqLpFf6yvcVXcUBHkSoolDN19f8mIX0a6UDB_GxGVPg8z3XNRTE7t1p7_K4xe5TYezlCSVtvLyuKRxlxeE_GwbNa-B3gqltw5-w"
+  group_id: 236013203
 
 

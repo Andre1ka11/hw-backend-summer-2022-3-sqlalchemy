@@ -1,5 +1,6 @@
 import typing
 from dataclasses import dataclass
+from typing import Optional
 
 import yaml
 
@@ -36,9 +37,9 @@ class DatabaseConfig:
 @dataclass
 class Config:
     admin: AdminConfig
-    session: SessionConfig | None = None
-    bot: BotConfig | None = None
-    database: DatabaseConfig | None = None
+    session: Optional[SessionConfig] = None
+    bot: Optional[BotConfig] = None
+    database: Optional[DatabaseConfig] = None
 
 
 def setup_config(app: "Application", config_path: str):
